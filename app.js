@@ -1,0 +1,6 @@
+require('babel-core/register')({
+  presets: ['es2015', 'stage-0']
+});
+require('babel-polyfill');
+
+var app = require('./server/index');
