@@ -1,4 +1,5 @@
 import mysql from 'mysql';
+import camelcase from 'camelcase';
 
 const pool = mysql.createPool({
   host: '',
@@ -6,6 +7,12 @@ const pool = mysql.createPool({
   password: '',
   database: ''
 });
+
+function* entries(obj) {
+  for (let key of Object.keys(obj)) {
+    yield [key, obj[key]];
+  }
+}
 
 export default (sql, values) => {
   return new Promise((resolve, reject) => {
@@ -17,6 +24,16 @@ export default (sql, values) => {
           if (err) {
             reject(err);
           } else {
+            if (Array.isArray(rows)) {
+              let objArr = rows.map(item => {
+                let obj = {};
+                for (let [key, value] of entries(item)) {
+                  obj[camelcase(key)] = value;
+                }
+                return obj;
+              });
+              resolve(objArr);
+            }
             resolve(rows);
           }
           connection.release();
