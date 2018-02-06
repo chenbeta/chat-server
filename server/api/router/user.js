@@ -10,11 +10,11 @@ userRouter.get('/list', async (req, res) => {
   res.json(resMsg({ data: result }));
 });
 
-userRouter.get('/add', async (req, res) => {
-  // 获取用户列表
-  const result = await user.addUser();
+userRouter.post('/setUserInfo', async (req, res) => {
+  // 设置用户
+  const result = await user.setUserInfo(req, res);
 
-  res.json(resMsg({ data: result }));
+  res.json(result);
 });
 
 userRouter.get('/del', async (req, res) => {

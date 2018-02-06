@@ -3,7 +3,7 @@ import camelcase from 'camelcase';
 
 const pool = mysql.createPool({
   host: '',
-  user: '',
+  user: 'root',
   password: '',
   database: ''
 });
